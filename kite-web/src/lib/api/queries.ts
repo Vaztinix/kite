@@ -338,3 +338,14 @@ export function usePluginInstanceQuery(appId: string, pluginId: string) {
     enabled: !!appId && !!pluginId,
   });
 }
+
+export function useUserTierQuery() {
+  return useQuery({
+    queryKey: ["userTier"],
+    queryFn: async () => {
+      const res = await fetch("/api/billing/user-tier");
+      if (!res.ok) throw new Error("Failed to fetch user tier");
+      return res.json();
+    },
+  });
+}
