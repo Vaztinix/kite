@@ -46,3 +46,29 @@ func (h *BillingHandler) HandleSubscriptionManage(c *handler.Context) (*wire.Sub
 		UpdatePaymentMethodURL: sub.Data.Attributes.Urls.UpdatePaymentMethod,
 	}, nil
 }
+func (h *BillingHandler) HandleUserTier(c *handler.Context) (*wire.UserTierResponse, error) {
+    subs, err := h.subscriptionStore.SubscriptionsByAppID(c.Context(), c.App.ID)
+    if err != nil {
+        return nil, err
+    }
+
+    for _, sub := range subs {
+        if sub.UserID != c.Session.UserID {
+            continue
+        }
+
+        if sub.Status != "active" {
+            continue
+        }
+
+        switch sub.PlanID { // or ProductID depending on your schema
+        case "ultimate_plan_id":
+            return &wire.UserTierResponse{Tier: "ultimate"}, nil
+        case "premium_plan_id":
+            return &wire.UserTierResponse{Tier: "premium"}, nil
+        }
+    }
+
+    return &wire.UserTierResponse{Tier: "open_beta"}, nil
+}
+
