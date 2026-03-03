@@ -1,4 +1,7 @@
 package wire
+type UserTierResponse struct {
+    Tier string `json:"tier"`
+}
 
 import (
 	"time"
