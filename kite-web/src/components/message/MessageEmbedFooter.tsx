@@ -33,7 +33,7 @@ export default function MessageEmbedFooter({
     <CollapsibleSection
       title="Footer"
       size="md"
-      valiationPathPrefix={`embeds.${embedIndex}.footer`}
+      validationPathPrefix={`embeds.${embedIndex}.footer`}
       className="space-y-3"
     >
       <MessageInput
@@ -57,8 +57,8 @@ export default function MessageEmbedFooter({
         <MessageInput
           type="date"
           label="Timestamp"
-          value={timestamp}
-          onChange={(v) => setTimestamp(embedIndex, v)}
+          value={timestamp || ""}
+          onChange={(v) => setTimestamp(embedIndex, v || undefined)}
           validationPath={`embeds.${embedIndex}.timestamp`}
         />
       </div>
